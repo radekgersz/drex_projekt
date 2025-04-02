@@ -1,2 +1,4 @@
 # drex_projekt
-drex project for PS
+projekt na Licencjacki Grupowy Projekt Badawczy na UW 
+Projekt realizowany we współpracy z Piotrem Suffczyńskim 
+
