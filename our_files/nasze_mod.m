@@ -77,7 +77,7 @@ params.distribution = 'gaussian';
 params.D = 1;
 params.hazard = 0.2;
 params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
-params.memory = inf;
+params.memory = 40;
 x = vector';
 out = run_DREX_model(x,params);
 
@@ -138,10 +138,120 @@ x = vector';
 params = [];
 params.distribution = 'gaussian';
 params.D = 1;
-params.hazard = 0.2;
+params.hazard = 0.05;
 params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
 x = vector';
 out = run_DREX_model(x,params);
 
 figure(1); clf;
 display_DREX_output(out,x)
+
+
+%% 100 bodŸców - z cisz¹ 
+data = readtable('signal_100.csv', 'ReadVariableNames', false);
+vector = table2array(data(1, :));
+
+rng(10);
+x = vector';
+
+
+params = [];
+params.distribution = 'gaussian';
+params.D = 1;
+params.hazard = 0.05;
+params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
+x = vector';
+out = run_DREX_model(x,params);
+
+figure(1); clf;
+display_DREX_output(out,x)
+
+%% 100 bodŸców bez ciszy
+
+
+data = readtable('signal_100_nobaseline.csv', 'ReadVariableNames', false);
+vector = table2array(data(1, :));
+
+rng(10);
+x = vector';
+
+
+params = [];
+params.distribution = 'gaussian';
+params.D = 1;
+params.hazard = 0.05;
+params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
+x = vector';
+out = run_DREX_model(x,params);
+
+figure(1); clf;
+display_DREX_output(out,x)
+
+
+%% 200 bodŸców - cisza
+
+
+data = readtable('signal_200.csv', 'ReadVariableNames', false);
+vector = table2array(data(1, :));
+
+rng(10);
+x = vector';
+
+
+params = [];
+params.distribution = 'gaussian';
+params.D = 1;
+params.hazard = 0.05;
+params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
+x = vector';
+out = run_DREX_model(x,params);
+
+figure(1); clf;
+display_DREX_output(out,x)
+
+
+%% hazard memory plot - wynik 
+
+result = display_hazard_memory_plot(35,0.01,x,2)
+
+hazards = result(:, :, 1);
+memories = result(:, :, 2);
+surprisals = result(:, :, 3);
+
+figure;
+surf(hazards, memories, surprisals);
+xlabel('Hazard');
+ylabel('Memory');
+zlabel('Surprisal (std)');
+title('Surprisal as a function of Hazard and Memory');
+colorbar;
+shading interp; % Smoothens the surfac
+
+
+%% hazard noise plot
+
+result = display_hazard_noise_plot(20,0.01,x,0)
+
+hazards = result(:, :, 1);
+noises = result(:, :, 2);
+surprisals = result(:, :, 3);
+
+figure;	
+surf(hazards, noises, surprisals);
+xlabel('Hazard');
+ylabel('noise');
+zlabel('Surprisal (std)');
+title('Surprisal as a function of Hazard and noise');
+colorbar;
+shading interp; % Smoothens the surface
+
+
+%% noise plot 
+
+res = display_obs_noise_plot(25,0,50,x,inf,0.7);
+
+noises = res(:,1);
+surprisals = res(:,2);
+
+figure;
+plot(noises,surprisals)

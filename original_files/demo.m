@@ -256,3 +256,5 @@ out = run_DREX_model(x,params);
 
 figure(1); clf;
 display_DREX_output(out,x)
+
+
