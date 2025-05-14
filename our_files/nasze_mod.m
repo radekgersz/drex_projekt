@@ -241,6 +241,7 @@ surf(hazards, noises, surprisals);
 xlabel('Hazard');
 ylabel('noise');
 zlabel('Surprisal (std)');
+
 title('Surprisal as a function of Hazard and noise');
 colorbar;
 shading interp; % Smoothens the surface
@@ -252,6 +253,16 @@ res = display_obs_noise_plot(25,0,50,x,inf,0.7);
 
 noises = res(:,1);
 surprisals = res(:,2);
+
+figure;
+plot(noises,surprisals)
+
+%% memory plot
+
+wyn = memory_plot(10,2,11,x,0.05)
+
+noises = wyn(:,1);
+surprisals = wyn(:,2);
 
 figure;
 plot(noises,surprisals)

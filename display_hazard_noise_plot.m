@@ -11,13 +11,13 @@ function out = display_hazard_noise_plot(n_samples, base_hazard, data, base_nois
     for i = 1:n_samples
         for j = 1:n_samples
             params.hazard = base_hazard + (i - 1) * hazard_step;
-            params.noise = base_noise + (j - 1) * noise_step;
+            params.obsnz = base_noise + (j - 1) * noise_step;
             
             out_model = run_DREX_model(data, params);
             surprisal = sum(out_model.surprisal);
             
             out(i, j, 1) = params.hazard;
-            out(i, j, 2) = params.noise;
+            out(i, j, 2) = params.obsnz;
             out(i, j, 3) = surprisal;
         end
     end
