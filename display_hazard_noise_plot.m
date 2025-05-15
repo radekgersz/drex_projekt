@@ -1,24 +1,31 @@
-function out = display_hazard_noise_plot(n_samples, base_hazard, data, base_noise)
-    out = zeros(n_samples, n_samples, 3); % Preallocate output matrix
+function out = display_hazard_noise_plot(n_samples, data, hazard_lower_bound, hazard_upper_bound, noise_lower_bound, noise_upper_bound)
+    out = zeros(n_samples, n_samples, 3);
+    noises = linspace(noise_lower_bound, noise_upper_bound, n_samples);
+    hazards = linspace(hazard_lower_bound, hazard_upper_bound, n_samples);
+    
     params = [];
     params.distribution = 'gaussian';
     params.D = 1;
     params.prior = estimate_suffstat(std(data) * randn(1000, 1), params);
-    
-    hazard_step = (1 - base_hazard) / n_samples;
-    noise_step = 1; % Increment memory linearly
-    
+ 
     for i = 1:n_samples
+        params.hazard = hazards(i);
         for j = 1:n_samples
-            params.hazard = base_hazard + (i - 1) * hazard_step;
-            params.obsnz = base_noise + (j - 1) * noise_step;
-            
-            out_model = run_DREX_model(data, params);
-            surprisal = sum(out_model.surprisal);
-            
+            params.obsnz = noises(j);
+            out = run_DREX_model(data,params);
+            surprisal = sum(out.surprisal);
             out(i, j, 1) = params.hazard;
             out(i, j, 2) = params.obsnz;
             out(i, j, 3) = surprisal;
         end
     end
+    hazards = result(:, :, 1);
+    noises = result(:, :, 2);
+    surprisals = result(:, :, 3);
+    figure;	
+    surf(hazards, noises, surprisals);
+    title('3d plot of suprisal depending on hazard and noise');
+    xlabel('Hazard');
+    ylabel('noise');
+    zlabel('sum of surprisal');
 end

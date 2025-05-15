@@ -1,4 +1,4 @@
-function out = observational_noise_plot(n_samples, noise_lower_bound,noise_upper_bound ,data, memory, hazard)
+function out = display_obs_noise_plot(n_samples, noise_lower_bound,noise_upper_bound ,data, memory, hazard)
 out = [];
 surprisals = zeros(n_samples,1);
 noises = linspace(noise_lower_bound, noise_upper_bound, n_samples);
@@ -14,8 +14,13 @@ for i = 1:n_samples
     out = run_DREX_model(data,params);
     surprisal = sum(out.surprisal); 
     surprisals(i) = surprisal; 
-
-    
 end 
 out = [noises',surprisals];
+noises = out(:,1);
+surprisals = out(:,2);
+figure;
+plot(noises,surprisals);
+title('Surprisal observational noise plot ');
+ylabel('Sum of Surprisal');
+xlabel('observational noise');
 end
