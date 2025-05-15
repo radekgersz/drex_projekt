@@ -99,3 +99,14 @@ surprisals = res(:,2);
 
 figure;
 plot(noises,surprisals)
+
+
+%% wykres dla observational noise i hazard rate dla danych z signal_100.csv
+n_samples = 50;
+hazard_lower_bound = 0;
+hazard_upper_bound = 1;
+noise_lower_bound = 0;
+noise_upper_bound = 1.2;
+result = display_hazard_noise_plot(n_samples, x, hazard_lower_bound, hazard_upper_bound, noise_lower_bound, noise_upper_bound)
+
+

@@ -1,5 +1,3 @@
-
-
 %%
 % Define total length of the matrix
 N = 100;  
@@ -249,11 +247,7 @@ shading interp; % Smoothens the surface
 
 %% noise plot 
 
-%res = display_obs_noise_plot(25,0,50,x,inf,0.7);
-
-%res2 = display_hz_plot(25,0.05,0.95,x,inf,0);
-
-res3 = display_memory_plot(25,1,1000,x,
+res = display_obs_noise_plot(25,0,50,x,inf,0.7);
 
 %% memory plot
 
