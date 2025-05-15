@@ -13,7 +13,7 @@ function out = display_hazard_noise_plot(n_samples, data, hazard_lower_bound, ha
         for j = 1:n_samples
             params.obsnz = noises(j);
             result = run_DREX_model(data,params);
-            surprisal = sum(result.surprisal);
+            surprisal = std(result.surprisal);
             out(i, j, 1) = params.hazard;
             out(i, j, 2) = params.obsnz;
             out(i, j, 3) = surprisal;
@@ -27,5 +27,5 @@ function out = display_hazard_noise_plot(n_samples, data, hazard_lower_bound, ha
     title('3d plot of suprisal depending on hazard and noise');
     xlabel('Hazard');
     ylabel('noise');
-    zlabel('sum of surprisal');
+    zlabel('std of surprisal');
 end

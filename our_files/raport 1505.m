@@ -79,34 +79,31 @@ display_DREX_output(out,x)
 
 
 
-%% wykresy dla signal_100.csv 
-
-params = [];
-params.distribution = 'gaussian';
-params.hazard = 0.95;
-params.obsnz = 20;
-params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
-data = readtable('signal_100.csv', 'ReadVariableNames', false);
-vector = table2array(data(1, :));
-
-rng(10);
-x = vector';
-
-res = display_obs_noise_plot(25,0,50,x,inf,0.7);
-
-noises = res(:,1);
-surprisals = res(:,2);
-
-figure;
-plot(noises,surprisals)
 
 
-%% wykres dla observational noise i hazard rate dla danych z signal_100.csv
-n_samples = 50;
+%% wykres 4 -  dla observational noise i hazard rate dla danych z signal_100.csv Uwaga! - zajmuje du¿o czasu 
+n_samples = 20;
 hazard_lower_bound = 0;
 hazard_upper_bound = 1;
 noise_lower_bound = 0;
 noise_upper_bound = 1.2;
-result = display_hazard_noise_plot(n_samples, x, hazard_lower_bound, hazard_upper_bound, noise_lower_bound, noise_upper_bound)
+result = display_hazard_noise_plot(n_samples, x, hazard_lower_bound, hazard_upper_bound, noise_lower_bound, noise_upper_bound);
 
 
+%% wykres 5 - surpsrisal od observational noise 
+n_samples = 50
+noise_lower_bound = 0;
+noise_upper_bound = 1.2;
+memory = inf;
+hazard = 0.05;
+
+out = display_obs_noise_plot(n_samples, noise_lower_bound,noise_upper_bound , x , memory, hazard);
+
+%% wykres 6 - surprisal od hazard rate 
+n_samples = 50
+hazard_lower_bound = 0;
+hazard_upper_bound = 1;
+memory = inf;
+obs_noise = 0;
+
+out = display_hz_plot(n_samples, hazard_lower_bound, hazard_upper_bound, x ,memory,obs_noise)
