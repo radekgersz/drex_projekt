@@ -49,7 +49,7 @@ x = vector';
 params = [];
 params.distribution = 'gaussian';
 params.hazard = 0.05;
-params.obsnz = 20;
+params.obsnz = 1;
 params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
 x = vector';
 out = run_DREX_model(x,params);
@@ -69,7 +69,7 @@ x = vector';
 params = [];
 params.distribution = 'gaussian';
 params.hazard = 0.95;
-params.obsnz = 20;
+params.obsnz = 1;
 params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
 x = vector';
 out = run_DREX_model(x,params);
@@ -107,3 +107,24 @@ memory = inf;
 obs_noise = 0;
 
 out = display_hz_plot(n_samples, hazard_lower_bound, hazard_upper_bound, x ,memory,obs_noise)
+
+
+
+%% wykres nowy - noise 0 hazard 0.95
+
+data = readtable('signal_100.csv', 'ReadVariableNames', false);
+vector = table2array(data(1, :));
+
+rng(10);
+x = vector';
+
+params = [];
+params.distribution = 'gaussian';
+params.hazard = 0.05;
+params.obsnz = 0;
+params.prior = estimate_suffstat(std(x)*randn(1000,1),params);
+x = vector';
+out = run_DREX_model(x,params);
+
+figure(1); clf;
+display_DREX_output(out,x)
